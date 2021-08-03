@@ -1,18 +1,25 @@
 #' Read scans
 #'
-#' @param full_path a path to the receiver scan file
+#' \code{read_receiver_scan_txt} reads the scans saved as text files.
 #'
-#' @return list of tibbles, one for metadata and one for the data
+#' @param full_path a path to the receiver scan file
+#' @param join logical (default FALSE), should the header and data be joined?
+#'
+#' @return tibble or a list of tibbles
 #' @export
 #'
+#' @details Header and data table are combined by the common `Scan Number`. If \code{join} is
+#' \code{TRUE}, the header tibble and data tibble are joined to form a one large tibble with all the metadata.
+#' Otherwise (default) the function returns a list with two fields: `header` and `data`. The common columns is
+#' the `Scan Number`.
+#'
 #' @importFrom stringr str_which str_split str_trim str_extract
-#' @importFrom tibble tibble bind_rows as_tibble_row
-#' @importFrom dplyr mutate mutate_all
+#' @importFrom tibble tibble as_tibble_row
+#' @importFrom dplyr mutate mutate_all bind_rows
 #' @importFrom readr parse_number read_tsv
 #' @importFrom tidyr separate
 #'
-#' @examples
-read_receiver_scan_txt <- function(full_path) {
+read_receiver_scan_txt <- function(full_path, join = FALSE) {
 
   lines <- readLines(full_path)
   header_positions <- str_which(lines,"% \\[Header\\]")
@@ -55,6 +62,6 @@ read_receiver_scan_txt <- function(full_path) {
     stop("Header has different number of elements for each data element.")
   }
 
-  return(list(data_tbl, header_tbl))
+  return(list(data = data_tbl, header = header_tbl))
 
 }
