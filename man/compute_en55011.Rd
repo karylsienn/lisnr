@@ -4,17 +4,17 @@
 \alias{compute_en55011}
 \title{Compute the limits for given frequencies}
 \usage{
-compute_en55011(frequency, type = "Avg", class = "B")
+compute_en55011(frequency, type = "AVG", class = "B")
 }
 \arguments{
 \item{frequency}{numeric vector of frequencies}
 
-\item{type}{character, type of the detector: average ("Avg") or Quasi-Peak ("QP")}
+\item{type}{character, type of the detector: average or Quasi-Peak}
 
 \item{class}{character, class of the device "A" or "B"}
 }
 \value{
-tibble with columns (frequency, limit)
+numeric vector, limits for
 }
 \description{
 Compute the limits in dBuV as prescribed by the standards EN55011, for a given

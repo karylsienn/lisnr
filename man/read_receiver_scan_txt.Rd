@@ -4,12 +4,21 @@
 \alias{read_receiver_scan_txt}
 \title{Read scans}
 \usage{
-read_receiver_scan_txt(full_path, join = FALSE)
+read_receiver_scan_txt(
+  full_path,
+  join = FALSE,
+  names_repair = NULL,
+  filename_fun = NULL
+)
 }
 \arguments{
-\item{full_path}{a path to the receiver scan file}
+\item{full_path}{character vector, a path to the receiver scan file}
 
 \item{join}{logical (default FALSE), should the header and data be joined?}
+
+\item{names_repair}{a function to rename the column names (applied to all columns)}
+
+\item{filename_fun}{a function that returns a tibble with metadata consisted in the filename}
 }
 \value{
 tibble or a list of tibbles

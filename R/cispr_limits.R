@@ -31,16 +31,21 @@ en55011 <- list(
 #'
 #' @return
 #' @export
-#'
 get_limits <- function(type = "Avg", class = "B") {
-  if(! (type %in% c("Avg", "QP")) )
+
+  types <- c("AVERAGE" = "AVG", "AVG" = "AVG", "QP" = "QP", "QUASI-PEAK" = "QP")
+  type <- stringr::str_to_upper(type)
+  if (!(type %in% names(types)) )
     stop("Specify correct type.")
 
-  if(!(class %in% c("B")) )
+  type <- types[type]
+
+  class <- stringr::str_to_upper(class)
+  if (!(class %in% c("B")) )
     stop("Specify correct class.")
 
   if(class == "B") {
-    if(type == "Avg") {
+    if(type == "AVG") {
       return(en55011$ClassB$Avg)
     } else if(type == "QP") {
       return(en55011$ClassB$QP)
@@ -58,7 +63,7 @@ get_limits <- function(type = "Avg", class = "B") {
 #'
 #'
 #' @param frequency numeric vector of frequencies
-#' @param type character, type of the detector: average ("Avg") or Quasi-Peak ("QP")
+#' @param type character, type of the detector: average or Quasi-Peak
 #' @param class character, class of the device "A" or "B"
 #'
 #' @return numeric vector, limits for
@@ -70,7 +75,7 @@ get_limits <- function(type = "Avg", class = "B") {
 #' @importFrom tibble tibble
 #' @importFrom purrr map_dbl
 #'
-compute_en55011 <- function(frequency, type = "Avg", class = "B") {
+compute_en55011 <- function(frequency, type = "AVG", class = "B") {
 
   # I am getting rid of %>% in case this is used in a loop
   T1 <- get_limits(type, class)

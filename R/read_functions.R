@@ -2,8 +2,11 @@
 #'
 #' \code{read_receiver_scan_txt} reads the scans saved as text files.
 #'
-#' @param full_path a path to the receiver scan file
+#' @param full_path character vector, a path to the receiver scan file
 #' @param join logical (default FALSE), should the header and data be joined?
+#' @param names_repair a function to rename the column names (applied to all columns)
+#' @param filename_fun a function that returns a tibble with metadata consisted in the filename
+#'
 #'
 #' @return tibble or a list of tibbles
 #' @export
@@ -19,8 +22,10 @@
 #' @importFrom readr parse_number read_tsv
 #' @importFrom tidyr separate
 #'
-read_receiver_scan_txt <- function(full_path, join = FALSE) {
+#'
+read_receiver_scan_txt <- function(full_path, join = FALSE, names_repair = NULL, filename_fun = NULL) {
 
+  # TODO: implement reading and combining multiple files and filename metadata
   lines <- readLines(full_path)
   header_positions <- str_which(lines,"% \\[Header\\]")
   data_positions <- str_which(lines, "% \\[Data\\]")
