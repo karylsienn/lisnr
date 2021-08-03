@@ -7,8 +7,9 @@
 read_receiver_scan_txt(
   full_path,
   join = FALSE,
-  names_repair = NULL,
-  filename_fun = NULL
+  names_repair,
+  filename_fun = NULL,
+  header_columns
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ read_receiver_scan_txt(
 \item{names_repair}{a function to rename the column names (applied to all columns)}
 
 \item{filename_fun}{a function that returns a tibble with metadata consisted in the filename}
+
+\item{header_columns}{a character vector, which columns from header to select}
 }
 \value{
 tibble or a list of tibbles
