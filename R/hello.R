@@ -4,6 +4,7 @@
 # which prints 'Hello, world!'.
 #
 # You can learn more about package authoring with RStudio at:
+
 #
 #   http://r-pkgs.had.co.nz/
 #
@@ -14,5 +15,5 @@
 #   Test Package:              'Cmd + Shift + T'
 
 hello <- function() {
-  print("Hello, world!")
+  print("Hello, world Erjon!")
 }
