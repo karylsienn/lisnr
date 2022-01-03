@@ -86,3 +86,47 @@ read_receiver_scan_txt <- function(full_path, join = FALSE, names_repair, filena
   }
 
 }
+
+
+#' Read ESL-3
+#'
+#' \code{read_esl3} reads the scans from ESL-3 EMI Receiver.
+#'
+#' @export
+#'
+#' @importFrom readr read_lines read_delim
+#' @importFrom purrr map_chr map
+#' @importFrom stringr str_c str_extract
+#' @importFrom dplyr select rename
+#'
+#'
+read_esl3 <- function(full_path, join = FALSE) {
+
+  lines <- read_lines(full_path)
+  poz <- which(str_detect(lines, 'Values;'))
+
+  # Header
+  header <- str_split(lines[1:poz],";")
+  header_nms <- map_chr(header, ~.[1])
+  header_col <- map(header, function(x) {
+    y <- x[-1]
+    y[nzchar(y)]
+  })
+  names(header_col) <- header_nms
+
+  # Assumes there is only one table in a file, but if there are multiples
+  nrows <- as.integer(str_extract(lines[poz], '[0-9]+'))
+  lines_collapsed <- str_c(lines[seq_len(nrows)+poz], collapse = "\n")
+  TD <- read_delim(lines_collapsed, delim =  ";", col_names = FALSE)
+  TD <- select(TD, -X3)
+  TD <- rename(TD, Frequency = X1, Magnitude = X2)
+
+  if(join) {
+    warning("Not implemented yet")
+    return(TD)
+  } else {
+    return(list(data = TD, header = header_col))
+  }
+
+}
+
