@@ -28,7 +28,7 @@ read_receiver_scan_txt <- function(full_path, join = FALSE, names_repair, filena
 
   # TODO: implement reading and combining multiple files and filename metadata
   lines <- readLines(full_path)
-  header_positions <- str_which(lines,"% \\[Header\\]")
+  header_positions <- str_which(lines, "% \\[Header\\]")
   data_positions <- str_which(lines, "% \\[Data\\]")
 
   if(sum(diff(data_positions - header_positions)) != 0)
@@ -56,7 +56,7 @@ read_receiver_scan_txt <- function(full_path, join = FALSE, names_repair, filena
     }
 
     data_tbl_tmp <- lines[data_starts[i]:data_ends[i]]
-    data_tbl_tmp <- read_tsv(data_tbl_tmp, col_names = "X")
+    data_tbl_tmp <- read_tsv(I(data_tbl_tmp), col_names = "X")
     data_tbl_tmp <- separate(data_tbl_tmp, X, c("Frequency", "Magnitude"), sep = "\\s+")
     data_tbl_tmp <- mutate_all(data_tbl_tmp, parse_number)
     data_tbl_tmp <- mutate(data_tbl_tmp, `Scan Number` = vals[["Scan Number"]])
